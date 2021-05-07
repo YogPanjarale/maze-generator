@@ -34,18 +34,13 @@ class Cell {
 		if (left) line(x + w, y + _, x + w, y + w); //left
 		if (bottom) line(x + w, y + w, x + _, y + w); //bottom
 		if (right) line(x + _, y + w, x + _, y + _); //right
-		if (this.visited && !this.inStack) {
-			// this.highLight();
-		}
-		if (this.visited && this.inStack) {
-			// this.highLight();
-			push();
+		if (!(this.inStack || this.visited)){
 			var x = this.i * w;
 			var y = this.j * w;
-			noStroke();
-			fill(255, 220, 30);
+			noStroke()
+			fill(255,255,255)
 			rect(x, y, w, w);
-			pop();
+
 		}
 		pop();
 		noFill()
@@ -59,6 +54,16 @@ class Cell {
 		fill(255, 120, 30, alpha);
 		rect(x, y, w, w);
 		pop();
+	}
+	highLightStack(){
+		push();
+		var x = this.i * w;
+		var y = this.j * w;
+		noStroke();
+		fill(255, 120, 100,150);
+		rect(x, y, w, w);
+		pop();
+
 	}
 	selfHighLight(alpha: number = 255) {
 		push();

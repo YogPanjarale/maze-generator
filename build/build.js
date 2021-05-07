@@ -29,16 +29,12 @@ var Cell = (function () {
             line(x + w, y + w, x + _, y + w);
         if (right)
             line(x + _, y + w, x + _, y + _);
-        if (this.visited && !this.inStack) {
-        }
-        if (this.visited && this.inStack) {
-            push();
+        if (!(this.inStack || this.visited)) {
             var x = this.i * w;
             var y = this.j * w;
             noStroke();
-            fill(255, 220, 30);
+            fill(255, 255, 255);
             rect(x, y, w, w);
-            pop();
         }
         pop();
         noFill();
@@ -50,6 +46,15 @@ var Cell = (function () {
         var y = this.j * w;
         noStroke();
         fill(255, 120, 30, alpha);
+        rect(x, y, w, w);
+        pop();
+    };
+    Cell.prototype.highLightStack = function () {
+        push();
+        var x = this.i * w;
+        var y = this.j * w;
+        noStroke();
+        fill(255, 120, 100, 150);
         rect(x, y, w, w);
         pop();
     };
@@ -117,10 +122,10 @@ var w = 50;
 var grid = [];
 var stack = [];
 var current;
-function setup() {
-    console.log("🚀 - Setup initialized - P5 is running");
-    createCanvas(500, 500);
-    frameRate(15);
+var btn;
+function generateGrid() {
+    grid = [];
+    stack = [];
     cols = floor(width / w);
     rows = floor(height / w);
     for (var j = 0; j < rows; j++) {
@@ -131,21 +136,43 @@ function setup() {
     }
     current = grid[0];
 }
-function draw() {
-    background(51);
-    grid.forEach(function (cell) {
-        cell.show();
+function setup() {
+    console.log("🚀 - Setup initialized - P5 is running");
+    createCanvas(500, 500);
+    frameRate(15);
+    generateGrid();
+    btn = createButton("ReGenerate", "Regenerate");
+    btn.addClass('ripple');
+    btn.mouseClicked(function () {
+        generateGrid();
     });
+}
+function generateMaze() {
     current.selfHighLight();
     var next = current.checkNeighbours();
     if (next) {
         next.visited = true;
         stack.push(current);
+        current.inStack = true;
         removeWall(current, next);
         current = next;
     }
     else if (stack.length > 0) {
         current = stack.pop();
+        current.inStack = false;
     }
+    else {
+        generateGrid();
+    }
+}
+function draw() {
+    background(51);
+    generateMaze();
+    grid.forEach(function (cell) {
+        cell.show();
+    });
+    stack.forEach(function (cell) {
+        cell.highLightStack();
+    });
 }
 //# sourceMappingURL=../sketch/sketch/build.js.map
