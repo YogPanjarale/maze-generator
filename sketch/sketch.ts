@@ -1,5 +1,5 @@
 var cols: number, rows: number;
-var w: number = 50;
+var w: number = 50/2;
 
 var grid: Cell[] = [];
 var stack:Cell[] = [];
@@ -10,7 +10,7 @@ let loopGenerate=false
 function setup() {
 	console.log("🚀 - Setup initialized - P5 is running");
 	createCanvas(500, 500);
-  frameRate(15)
+  frameRate(50)
 	generateGrid()
   makeUi()
 }

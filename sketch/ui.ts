@@ -11,9 +11,9 @@ function makeUi() {
 		loopGenerate = !loopGenerate;
 		btn.innerHTML = loopGenerate ? "No Loop □" : "Loop ■";
 	};
-	slider = createSlider(1, 50, 15, 1);
+	slider = createSlider(1, 75, 50, 1);
 	slider.id("sl");
-    let t = createP("15")
+    let t = createP("50")
     t.id("frameRate")
 	let fr = document.getElementById("frameRate");
 	setInterval(function () {

@@ -153,7 +153,7 @@ function generateMaze() {
     });
 }
 var cols, rows;
-var w = 50;
+var w = 50 / 2;
 var grid = [];
 var stack = [];
 var current;
@@ -161,7 +161,7 @@ var loopGenerate = false;
 function setup() {
     console.log("🚀 - Setup initialized - P5 is running");
     createCanvas(500, 500);
-    frameRate(15);
+    frameRate(50);
     generateGrid();
     makeUi();
 }
@@ -182,9 +182,9 @@ function makeUi() {
         loopGenerate = !loopGenerate;
         btn.innerHTML = loopGenerate ? "No Loop □" : "Loop ■";
     };
-    slider = createSlider(1, 50, 15, 1);
+    slider = createSlider(1, 75, 50, 1);
     slider.id("sl");
-    var t = createP("15");
+    var t = createP("50");
     t.id("frameRate");
     var fr = document.getElementById("frameRate");
     setInterval(function () {
