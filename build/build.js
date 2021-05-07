@@ -54,7 +54,7 @@ var Cell = (function () {
         var x = this.i * w;
         var y = this.j * w;
         noStroke();
-        fill(255, 120, 100, 150);
+        fill(255, 120, 100, 100);
         rect(x, y, w, w);
         pop();
     };
@@ -117,12 +117,6 @@ function removeWall(a, b) {
             break;
     }
 }
-var cols, rows;
-var w = 50;
-var grid = [];
-var stack = [];
-var current;
-var btn;
 function generateGrid() {
     grid = [];
     stack = [];
@@ -135,17 +129,6 @@ function generateGrid() {
         }
     }
     current = grid[0];
-}
-function setup() {
-    console.log("🚀 - Setup initialized - P5 is running");
-    createCanvas(500, 500);
-    frameRate(15);
-    generateGrid();
-    btn = createButton("ReGenerate", "Regenerate");
-    btn.addClass('ripple');
-    btn.mouseClicked(function () {
-        generateGrid();
-    });
 }
 function generateMaze() {
     current.selfHighLight();
@@ -162,8 +145,26 @@ function generateMaze() {
         current.inStack = false;
     }
     else {
-        generateGrid();
+        if (loopGenerate)
+            generateGrid();
     }
+    stack.forEach(function (cell) {
+        cell.highLightStack();
+    });
+}
+var cols, rows;
+var w = 50;
+var grid = [];
+var stack = [];
+var current;
+var btn;
+var loopGenerate = false;
+function setup() {
+    console.log("🚀 - Setup initialized - P5 is running");
+    createCanvas(500, 500);
+    frameRate(15);
+    generateGrid();
+    makeUi();
 }
 function draw() {
     background(51);
@@ -171,8 +172,12 @@ function draw() {
     grid.forEach(function (cell) {
         cell.show();
     });
-    stack.forEach(function (cell) {
-        cell.highLightStack();
+}
+function makeUi() {
+    btn = createButton("ReGenerate", "Regenerate");
+    btn.addClass('ripple');
+    btn.mouseClicked(function () {
+        generateGrid();
     });
 }
 //# sourceMappingURL=../sketch/sketch/build.js.map
