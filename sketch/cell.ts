@@ -17,6 +17,7 @@ class Cell {
 	wallsB: boolean[] = [];
 	walls: Walls = { top: true, bottom: true, left: true, right: true };
 	visited: boolean = false;
+	inStack: boolean = false;
 	constructor(i: number, j: number) {
 		this.i = i;
 		this.j = j;
@@ -24,32 +25,49 @@ class Cell {
 	show() {
 		var x = this.i * w;
 		var y = this.j * w;
+		push();
 		stroke(255);
+		strokeWeight(5);
 		const _ = 0;
 		const { top, left, bottom, right } = this.walls;
 		if (top) line(x + _, y + _, x + w, y + _); //top
 		if (left) line(x + w, y + _, x + w, y + w); //left
 		if (bottom) line(x + w, y + w, x + _, y + w); //bottom
 		if (right) line(x + _, y + w, x + _, y + _); //right
-		if (this.visited) {
-			this.highLight();
+		if (this.visited && !this.inStack) {
+			// this.highLight();
 		}
-		// noFill()
+		if (this.visited && this.inStack) {
+			// this.highLight();
+			push();
+			var x = this.i * w;
+			var y = this.j * w;
+			noStroke();
+			fill(255, 220, 30);
+			rect(x, y, w, w);
+			pop();
+		}
+		pop();
+		noFill()
 		// rect(x,y,w,w)
 	}
 	highLight(alpha: number = 255) {
+		push();
 		var x = this.i * w;
 		var y = this.j * w;
 		noStroke();
 		fill(255, 120, 30, alpha);
 		rect(x, y, w, w);
+		pop();
 	}
 	selfHighLight(alpha: number = 255) {
+		push();
 		var x = this.i * w;
 		var y = this.j * w;
 		noStroke();
 		fill(255, 100, 0, alpha);
 		rect(x, y, w, w);
+		pop();
 	}
 	checkNeighbours() {
 		let { i, j } = this;
@@ -76,7 +94,7 @@ class Cell {
 }
 function removeWall(a: Cell, b: Cell) {
 	var x: number = a.i - b.i;
-    var y: number = a.j - b.j;
+	var y: number = a.j - b.j;
 	switch (x) {
 		case 1: //right,left
 			a.walls.right = false;

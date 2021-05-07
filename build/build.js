@@ -9,13 +9,16 @@ var Cell = (function () {
         this.wallsB = [];
         this.walls = { top: true, bottom: true, left: true, right: true };
         this.visited = false;
+        this.inStack = false;
         this.i = i;
         this.j = j;
     }
     Cell.prototype.show = function () {
         var x = this.i * w;
         var y = this.j * w;
+        push();
         stroke(255);
+        strokeWeight(5);
         var _ = 0;
         var _a = this.walls, top = _a.top, left = _a.left, bottom = _a.bottom, right = _a.right;
         if (top)
@@ -26,25 +29,39 @@ var Cell = (function () {
             line(x + w, y + w, x + _, y + w);
         if (right)
             line(x + _, y + w, x + _, y + _);
-        if (this.visited) {
-            this.highLight();
+        if (this.visited && !this.inStack) {
         }
+        if (this.visited && this.inStack) {
+            push();
+            var x = this.i * w;
+            var y = this.j * w;
+            noStroke();
+            fill(255, 220, 30);
+            rect(x, y, w, w);
+            pop();
+        }
+        pop();
+        noFill();
     };
     Cell.prototype.highLight = function (alpha) {
         if (alpha === void 0) { alpha = 255; }
+        push();
         var x = this.i * w;
         var y = this.j * w;
         noStroke();
         fill(255, 120, 30, alpha);
         rect(x, y, w, w);
+        pop();
     };
     Cell.prototype.selfHighLight = function (alpha) {
         if (alpha === void 0) { alpha = 255; }
+        push();
         var x = this.i * w;
         var y = this.j * w;
         noStroke();
         fill(255, 100, 0, alpha);
         rect(x, y, w, w);
+        pop();
     };
     Cell.prototype.checkNeighbours = function () {
         var _a = this, i = _a.i, j = _a.j;
@@ -96,8 +113,9 @@ function removeWall(a, b) {
     }
 }
 var cols, rows;
-var w = 20;
+var w = 50;
 var grid = [];
+var stack = [];
 var current;
 function setup() {
     console.log("🚀 - Setup initialized - P5 is running");
@@ -122,8 +140,12 @@ function draw() {
     var next = current.checkNeighbours();
     if (next) {
         next.visited = true;
+        stack.push(current);
         removeWall(current, next);
         current = next;
+    }
+    else if (stack.length > 0) {
+        current = stack.pop();
     }
 }
 //# sourceMappingURL=../sketch/sketch/build.js.map

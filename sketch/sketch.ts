@@ -1,6 +1,9 @@
 var cols: number, rows: number;
-var w: number = 20;
+var w: number = 50;
+
 var grid: Cell[] = [];
+var stack:Cell[] = [];
+
 var current: Cell;
 function setup() {
 	console.log("🚀 - Setup initialized - P5 is running");
@@ -27,10 +30,13 @@ function draw() {
   let next = current.checkNeighbours()
   if (next){
     next.visited=true
-
+    //Step 2
+    stack.push(current)
     //Step 3
     removeWall(current,next)
 
     current=next
+  }else if(stack.length>0){
+    current = stack.pop()
   }
 }
