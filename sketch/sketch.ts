@@ -1,11 +1,11 @@
 var cols: number, rows: number;
-var w: number = 50;
+var w: number = 20;
 var grid: Cell[] = [];
 var current: Cell;
 function setup() {
 	console.log("🚀 - Setup initialized - P5 is running");
 	createCanvas(500, 500);
-  frameRate(5)
+  frameRate(15)
 	cols = floor(width / w);
 	rows = floor(height / w);
 	for (let j = 0; j < rows; j++) {
@@ -22,9 +22,15 @@ function draw() {
 	grid.forEach((cell) => {
 		cell.show();
 	});
+  current.selfHighLight()
+  //Step 1
   let next = current.checkNeighbours()
   if (next){
     next.visited=true
+
+    //Step 3
+    removeWall(current,next)
+
     current=next
   }
 }

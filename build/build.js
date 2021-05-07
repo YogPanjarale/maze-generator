@@ -34,6 +34,15 @@ var Cell = (function () {
         if (alpha === void 0) { alpha = 255; }
         var x = this.i * w;
         var y = this.j * w;
+        noStroke();
+        fill(255, 120, 30, alpha);
+        rect(x, y, w, w);
+    };
+    Cell.prototype.selfHighLight = function (alpha) {
+        if (alpha === void 0) { alpha = 255; }
+        var x = this.i * w;
+        var y = this.j * w;
+        noStroke();
         fill(255, 100, 0, alpha);
         rect(x, y, w, w);
     };
@@ -51,6 +60,7 @@ var Cell = (function () {
                 neighbours.push(c);
             }
         });
+        neighbours.forEach(function (n) { return n.highLight(50); });
         if (neighbours.length > 0) {
             var r = floor(random(0, neighbours.length));
             return neighbours[r];
@@ -61,14 +71,38 @@ var Cell = (function () {
     };
     return Cell;
 }());
+function removeWall(a, b) {
+    var x = a.i - b.i;
+    var y = a.j - b.j;
+    switch (x) {
+        case 1:
+            a.walls.right = false;
+            b.walls.left = false;
+            break;
+        case -1:
+            a.walls.left = false;
+            b.walls.right = false;
+            break;
+    }
+    switch (y) {
+        case 1:
+            a.walls.top = false;
+            b.walls.bottom = false;
+            break;
+        case -1:
+            a.walls.bottom = false;
+            b.walls.top = false;
+            break;
+    }
+}
 var cols, rows;
-var w = 50;
+var w = 20;
 var grid = [];
 var current;
 function setup() {
     console.log("🚀 - Setup initialized - P5 is running");
     createCanvas(500, 500);
-    frameRate(5);
+    frameRate(15);
     cols = floor(width / w);
     rows = floor(height / w);
     for (var j = 0; j < rows; j++) {
@@ -84,9 +118,11 @@ function draw() {
     grid.forEach(function (cell) {
         cell.show();
     });
+    current.selfHighLight();
     var next = current.checkNeighbours();
     if (next) {
         next.visited = true;
+        removeWall(current, next);
         current = next;
     }
 }

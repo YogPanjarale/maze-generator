@@ -40,6 +40,14 @@ class Cell {
 	highLight(alpha: number = 255) {
 		var x = this.i * w;
 		var y = this.j * w;
+		noStroke();
+		fill(255, 120, 30, alpha);
+		rect(x, y, w, w);
+	}
+	selfHighLight(alpha: number = 255) {
+		var x = this.i * w;
+		var y = this.j * w;
+		noStroke();
 		fill(255, 100, 0, alpha);
 		rect(x, y, w, w);
 	}
@@ -57,11 +65,36 @@ class Cell {
 				neighbours.push(c);
 			}
 		});
+		neighbours.forEach((n) => n.highLight(50));
 		if (neighbours.length > 0) {
 			let r = floor(random(0, neighbours.length));
 			return neighbours[r];
 		} else {
 			return undefined;
 		}
+	}
+}
+function removeWall(a: Cell, b: Cell) {
+	var x: number = a.i - b.i;
+    var y: number = a.j - b.j;
+	switch (x) {
+		case 1: //right,left
+			a.walls.right = false;
+			b.walls.left = false;
+			break;
+		case -1: //left,right
+			a.walls.left = false;
+			b.walls.right = false;
+			break;
+	}
+	switch (y) {
+		case 1: //top,bottom
+			a.walls.top = false;
+			b.walls.bottom = false;
+			break;
+		case -1: //bottom,top
+			a.walls.bottom = false;
+			b.walls.top = false;
+			break;
 	}
 }
