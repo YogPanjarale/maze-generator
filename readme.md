@@ -16,17 +16,17 @@ This is based on the [Regular Polygon](https://p5js.org/examples/form-regular-po
 
 ### Installing
 
-```
+```bash
 git clone https://github.com/Gaweph/p5-typescript-starter.git
 ```
 
-```
+```bash
 npm install
 ```
 
 ### Usage
 
-```
+```bash
 npm start
 ```
 
@@ -35,7 +35,7 @@ A local version will now be running on [localhost:3000](http://localhost:3000)
 ## Global and Instanced mode
 
 P5 is able to run in either global or instanced mode.
-https://github.com/processing/p5.js/wiki/Global-and-instance-mode
+<https://github.com/processing/p5.js/wiki/Global-and-instance-mode>
 
 This starter project now uses **Global mode** to bring it inline with most of the online resources provided by the project.
 
