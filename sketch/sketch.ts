@@ -6,7 +6,6 @@ var stack:Cell[] = [];
 
 var current: Cell;
 
-let btn :p5.Element
 let loopGenerate=false
 function setup() {
 	console.log("🚀 - Setup initialized - P5 is running");

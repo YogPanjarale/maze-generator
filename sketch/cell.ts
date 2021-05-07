@@ -60,7 +60,7 @@ class Cell {
 		var x = this.i * w;
 		var y = this.j * w;
 		noStroke();
-		fill(255, 120, 100,100);
+		fill(255, 120, 100,150);
 		rect(x, y, w, w);
 		pop();
 

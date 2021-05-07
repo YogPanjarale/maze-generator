@@ -28,12 +28,12 @@ body {
 
 /* Button style */
 button {
-    margin:5vh;
+    margin:2vh;
 	border: none;
 	border-radius: 2px;
 	padding: 12px 18px;
 	font-size: 16px;
-	text-transform: uppercase;
+	text-transform: capitalize;
 	cursor: pointer;
 	color: white;
 	background-color: #2196f3;

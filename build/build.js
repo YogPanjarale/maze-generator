@@ -54,7 +54,7 @@ var Cell = (function () {
         var x = this.i * w;
         var y = this.j * w;
         noStroke();
-        fill(255, 120, 100, 100);
+        fill(255, 120, 100, 150);
         rect(x, y, w, w);
         pop();
     };
@@ -157,7 +157,6 @@ var w = 50;
 var grid = [];
 var stack = [];
 var current;
-var btn;
 var loopGenerate = false;
 function setup() {
     console.log("🚀 - Setup initialized - P5 is running");
@@ -173,11 +172,25 @@ function draw() {
         cell.show();
     });
 }
+var btn, r1, slider;
 function makeUi() {
-    btn = createButton("ReGenerate", "Regenerate");
-    btn.addClass('ripple');
-    btn.mouseClicked(function () {
-        generateGrid();
-    });
+    var div = createDiv("\n    <button id=\"btn1\" class=\"ripple\"> Regenerate</button>\n    <button id=\"btn2\" class=\"ripple\">No Loop \u25A1</button>\n    ");
+    r1 = document.getElementById("btn1");
+    r1.onclick = function () { return generateGrid(); };
+    btn = document.getElementById("btn2");
+    btn.onclick = function () {
+        loopGenerate = !loopGenerate;
+        btn.innerHTML = loopGenerate ? "No Loop □" : "Loop ■";
+    };
+    slider = createSlider(1, 50, 15, 1);
+    slider.id("sl");
+    var t = createP("15");
+    t.id("frameRate");
+    var fr = document.getElementById("frameRate");
+    setInterval(function () {
+        var v = Number(slider.value());
+        frameRate(v);
+        fr.innerHTML = String(v);
+    }, 100);
 }
 //# sourceMappingURL=../sketch/sketch/build.js.map
